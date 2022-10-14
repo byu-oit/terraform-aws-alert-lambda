@@ -36,4 +36,14 @@ resource "aws_iam_role" "lambda_role" {
   managed_policy_arns  = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
 }
 
+# lambda
+
+# Lambda permission
+
+# sns Alarm topic and subscription
+
+# Create array of cloud watch alarms
+
+
+
 

@@ -15,3 +15,5 @@ variable "lambda_role_permissions_boundary" {
   default     = ""
 }
 
+# people need to be able to pass in an array of configuration items ..   Metric, Event, Condition.
+
