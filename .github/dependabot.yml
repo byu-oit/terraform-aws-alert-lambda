@@ -9,4 +9,4 @@ updates:
     target-branch: "main"
     # Requesting reviews from yourself makes Dependabot PRs easy to find (https://github.com/pulls/review-requested)
     reviewers:
-      - "byu-oit/devops-tooling"
+      - "byu-oit/specops-developer"
