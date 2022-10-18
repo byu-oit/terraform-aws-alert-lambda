@@ -15,3 +15,34 @@ variable "lambda_role_permissions_boundary" {
   default     = ""
 }
 
+# people need to be able to pass in an array of configuration items ..   Metric, Event, Condition.
+
+variable "in_dev" {
+  type        = bool
+  description = "Whether or not to actually send messages to Teams. Recommended to be false for all environments except production."
+  default     = true
+}
+
+variable "log_retention_in_days" {
+  type        = number
+  description = "The number of days to retain logs for the sns-to-teams Lambda."
+  default     = 14
+}
+
+variable "memory_size" {
+  type        = number
+  description = "The amount of memory for the function."
+  default     = 128
+}
+
+variable "timeout" {
+  type        = number
+  description = "The number of seconds the function is allowed to run."
+  default     = 30
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of AWS Tags to attach to each resource created."
+  default     = {}
+}
