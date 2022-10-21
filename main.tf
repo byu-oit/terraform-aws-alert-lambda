@@ -83,7 +83,21 @@ resource "aws_sns_topic_subscription" "lambda" {
 }
 
 # Create array of cloud watch alarms
-
+resource "aws_cloudwatch_metric_alarm" "alarms" {
+  for_each            = { for config in var.metric_alarm_configs : config.alarm_name => config }
+  alarm_name          = each.value.alarm_name
+  comparison_operator = each.value.comparison_operator
+  evaluation_periods  = each.value.evaluation_periods
+  metric_name         = each.value.metric_name
+  namespace           = each.value.namespace
+  period              = each.value.period
+  statistic           = each.value.statistic
+  threshold           = each.value.threshold
+  alarm_description   = each.value.alarm_description
+  alarm_actions       = [aws_sns_topic.sns_to_operations.arn]
+  ok_actions          = [aws_sns_topic.sns_to_operations.arn]
+  dimensions          = each.value.dimensions
+}
 
 
 
