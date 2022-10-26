@@ -37,10 +37,10 @@ exports.handler = async function (event, context) {
         alert_time : the_alert_time,            // "The time of the alert: Optional"
         address : the_ip_address,               //"The IP address of the host: Optional"
         ticket: the_ticket,                     // "A ServiceNow Ticket created for the alert: Optional"
-        kb: the_kb, // "The KB for Ops to follow when an alert appears: Required"
-        service : the_service  // "The ServiceNow Service associated with the host: Optional"
+        kb: the_kb,                             // "The KB for Ops to follow when an alert appears: Required"
+        service : the_service                   // "The ServiceNow Service associated with the host: Optional"
     }
-    logItem("sample Notify Object", notify_obj)
+    logItem("SAMPLE Notify Object", notify_obj)
 
     logItem("typeof process.env.IN_DEV", typeof process.env.IN_DEV)
     logItem("process.env.IN_DEV = ", process.env.IN_DEV)
@@ -67,6 +67,7 @@ exports.handler = async function (event, context) {
     }
     else {
         printLogError( "27 .. process.env.IN_DEV !== 'true'")
+
         context.succeed("Production Request resulted on Success.")
     }
 
