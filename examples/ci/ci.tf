@@ -22,5 +22,6 @@ module "ci_test" {
   app_name                         = "alert-lambda-module-test"
   monitoring_host                  = "in.monitoringdev.byu.edu"
   lambda_role_permissions_boundary = module.acs.role_permissions_boundary.arn
+  metric_alarm_configs             = []
 }
 

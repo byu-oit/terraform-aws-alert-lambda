@@ -46,3 +46,19 @@ variable "tags" {
   description = "A map of AWS Tags to attach to each resource created."
   default     = {}
 }
+
+variable "metric_alarm_configs" {
+  type = list(object({
+    alarm_name          = string
+    statistic           = string
+    metric_name         = string
+    namespace           = string
+    comparison_operator = string
+    threshold           = number
+    period              = number
+    evaluation_periods  = number
+    alarm_description   = string
+    dimensions          = map(string)
+  }))
+  description = "Array of Alarm objects"
+}
