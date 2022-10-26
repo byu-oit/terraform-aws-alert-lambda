@@ -20,3 +20,5 @@ override.tf.json
 
 .DS_Store
 /examples/simple/.terraform.lock.hcl
+
+update_zip.sh
