@@ -9,6 +9,18 @@ variable "monitoring_host" {
   default     = "in.monitoring.byu.edu"
 }
 
+variable "dev_monitoring_host" {
+  type        = string
+  description = "The DEV host to ship the Monitoring JSON Object to."
+  default     = "in.monitoringdev.byu.edu"
+}
+
+variable "monitoring_api_path" {
+  type        = string
+  description = "The monitoring api path."
+  default     = "/generic/process-event"
+}
+
 variable "lambda_role_permissions_boundary" {
   type        = string
   description = "The ARN of the role permissions boundary to attach to the Lambda role."
