@@ -19,15 +19,15 @@ exports.handler = async function (event, context) {
     }
 
 
-    let the_host = "api-dev.byu.edu"
+    let the_host = "terraform-aws-alert-lambda-to-operations--example"
     let the_element = "aws CloudWatch alarm"
     let the_severity = "CRITICAL"
     let the_alert_output = `{"AlarmName":"tim-cpu-alarm-test","AlarmDescription":"Testing for the Alarms processing Lambda","AWSAccountId":"598052082689","AlarmConfigurationUpdatedTimestamp":"2022-10-18T20:01:25.573+0000","NewStateValue":"OK","NewStateReason":"Threshold Crossed: 1 out of the last 1 datapoints [0.05164275070031484 (18/10/22 20:13:00)] was not greater than the threshold (0.059) (minimum 1 datapoint for ALARM -> OK transition).","StateChangeTime":"2022-10-18T20:15:10.941+0000","Region":"US West (Oregon)","AlarmArn":"arn:aws:cloudwatch:us-west-2:598052082689:alarm:tim-cpu-alarm-test","OldStateValue":"ALARM","OKActions":["arn:aws:sns:us-west-2:598052082689:alert-lambda-simple-test-sns-to-operations"],"AlarmActions":["arn:aws:sns:us-west-2:598052082689:alert-lambda-simple-test-sns-to-operations"],"InsufficientDataActions":[],"Trigger":{"MetricName":"CPUUtilization","Namespace":"AWS/ECS","StatisticType":"Statistic","Statistic":"AVERAGE","Unit":null,"Dimensions":[{"value":"tyk-identity-api-dev","name":"ServiceName"},{"value":"tyk-identity-api-dev","name":"ClusterName"}],"Period":60,"EvaluationPeriods":1,"DatapointsToAlarm":1,"ComparisonOperator":"GreaterThanThreshold","Threshold":0.059,"TreatMissingData":"missing","EvaluateLowSampleCountPercentile":""}}`
     let the_element_monitor = "this lambda project"
     let the_alert_time = Date.now()
     let the_ip_address = "127.0.0.1"
-    let the_ticket = "INC050xxxx"
-    let the_kb = "KB00xxxxx"
+    let the_ticket = ""
+    let the_kb = "KB0000000"
     let the_service = "Tyk's TIM service"
 
     let notify_obj =     {
@@ -49,7 +49,7 @@ exports.handler = async function (event, context) {
     logItem("typeof process.env.IN_DEV", typeof process.env.IN_DEV)
     logItem("process.env.IN_DEV = ", process.env.IN_DEV)
     if (process.env.IN_DEV === 'true') {
-        notify_url = notify_obj.host = "https://" + process.env.DEV_MOMNITORING_HOST + "" + process.env.MONITORING_API_PATH
+        notify_url = notify_obj.host = "https://" + process.env.DEV_MONITORING_HOST + "" + process.env.MONITORING_API_PATH
         logItem("process.env.IN_DEV === ", "true" )
         logItem('event.Records count=', event.Records.length, true)
         if(event.Records.length === 1){
@@ -57,60 +57,80 @@ exports.handler = async function (event, context) {
             logItem('item.EventSource = ', item.EventSource)
             notify_obj.host = process.env.APP_NAME
             logItem('item.EventVersion = ', item.EventVersion)
-            logItem('item.EventSubscriptionArn = ', item.EventSubscriptionArn)
+            logItem('item.EventSubscriptionArn = ', item.EventSubscriptionArn, true)
 
             let sns = item.Sns
             logItem("sns.Type = ", sns.Type)
             logItem("sns.MessageId = ", sns.MessageId)
             logItem("sns.TopicArn = ", sns.TopicArn)
             logItem("sns.Subject = ", sns.Subject)
+            notify_obj.alert_output = sns.Subject
 
             let mess_obj = JSON.parse(sns.Message)
-            logItem("sns.Message = ", mess_obj)
-            logItem("mess_obj.AlarmName = ", mess_obj.AlarmName)
-            logItem("mess_obj.AlarmDescription = ", mess_obj.AlarmDescription)
-            logItem("mess_obj.AWSAccountId = ", mess_obj.AWSAccountId)
-            logItem("mess_obj.AlarmConfigurationUpdatedTimestamp = ", mess_obj.AlarmConfigurationUpdatedTimestamp)
-            logItem("mess_obj.NewStateValue = ", mess_obj.NewStateValue)
-            logItem("mess_obj.NewStateReason = ", mess_obj.NewStateReason)
-            logItem("mess_obj.StateChangeTime = ", mess_obj.StateChangeTime)
-            logItem("mess_obj.Region = ", mess_obj.Region)
-            logItem("mess_obj.AlarmArn = ", mess_obj.AlarmArn)
-            logItem("mess_obj.OldStateValue = ", mess_obj.OldStateValue)
-            logItem("mess_obj.OKActions = ", mess_obj.OKActions)
-            logItem("mess_obj.AlarmActions = ", mess_obj.AlarmActions)
-            logItem("mess_obj.InsufficientDataActions = ", mess_obj.InsufficientDataActions)
-            logItem("mess_obj.Trigger = ", mess_obj.Trigger)
+            //logItem("sns.Message = ", mess_obj)
+            logItem("sns.Message.AlarmName = ", mess_obj.AlarmName)
+            notify_obj.element = mess_obj.AlarmName
+            notify_obj.severity = "TEST"
+
+            logItem("sns.Subject = ", sns.Subject)
+
+
+            logItem("sns.Message.AlarmDescription = ", mess_obj.AlarmDescription)
+            logItem("sns.Message.AWSAccountId = ", mess_obj.AWSAccountId)
+            //logItem("sns.Message.AlarmConfigurationUpdatedTimestamp = ", mess_obj.AlarmConfigurationUpdatedTimestamp)
+            logItem("sns.Message.NewStateValue = ", mess_obj.NewStateValue)
+            logItem("sns.Message.NewStateReason = ", mess_obj.NewStateReason)
+            logItem("sns.Message.StateChangeTime = ", mess_obj.StateChangeTime)
+            logItem("sns.Message.Region = ", mess_obj.Region)
+            logItem("sns.Message.AlarmArn = ", mess_obj.AlarmArn)
+
+            //logItem("sns.Message.OldStateValue = ", mess_obj.OldStateValue)
+            //logItem("sns.Message.OKActions = ", mess_obj.OKActions)
+            //logItem("sns.Message.AlarmActions = ", mess_obj.AlarmActions)
+            //logItem("sns.Message.InsufficientDataActions = ", mess_obj.InsufficientDataActions)
+            //logItem("sns.Message.Trigger = ", mess_obj.Trigger)
+
+            notify_obj.element_monitor = "AWS Alarm Trigger: " + JSON.stringify(mess_obj.Trigger)
+            logItem("notify_obj.element_monitor = ", notify_obj.element_monitor)
 
             // rest of the sns object
             logItem("sns.Timestamp = ", sns.Timestamp)
-            logItem("sns.SignatureVersion = ", sns.SignatureVersion)
-            logItem("sns.Signature = ", sns.Signature)
-            logItem("sns.SigningCertUrl = ", sns.SigningCertUrl)
-            logItem("sns.UnsubscribeUrl = ", sns.UnsubscribeUrl)
-            logItem("sns.MessageAttributes = ", sns.MessageAttributes)
+            notify_obj.alert_time = sns.Timestamp
 
-            logItem("UPDATED: Notify Object", notify_obj)
+            // logItem("sns.SignatureVersion = ", sns.SignatureVersion)
+            // logItem("sns.Signature = ", sns.Signature)
+            // logItem("sns.SigningCertUrl = ", sns.SigningCertUrl)
+            // logItem("sns.UnsubscribeUrl = ", sns.UnsubscribeUrl)
+            // logItem("sns.MessageAttributes = ", sns.MessageAttributes, true)
+
+            notify_obj.address = ""
+            notify_obj.ticket = ""
+            notify_obj.service = ""
+            logItem("notify_obj.kb: ", notify_obj.kb)
+
+            logItem("UPDATED: Notify Object", notify_obj, true)
+
+            logItem("notify_url: ", notify_url)
             printLog()
             context.succeed("IN_DEV call resulted in Success!")
         } else {
-            printLogError("93")
+            printLogError("129")
             logItem("Too many Records items found in the event...!!")
         }
     }
     else {
-        printLogError( "98 .. process.env.IN_DEV !== 'true'")
+        printLogError( "134 .. process.env.IN_DEV !== 'true'")
 
         // production handling goes here
         context.succeed("Production Request resulted on Success.")
     }
 
-    const webhookUrl = new URL(process.env.DEV_MOMNITORING_HOST + process.env.MONITORING_API_PATH)
-    try {
-        await Promise.all(event.Records.map(record => _sendTeamsMessage(record.Sns.Message ?? record.Sns.ErrorMessage, webhookUrl)))
-        console.info('All messages sent successfully.')
-    } catch (e) {
-        console.error(e)
-        context.fail(e)
-    }
+
+    // try {
+    //     await Promise.all(event.Records.map(record => _sendTeamsMessage(record.Sns.Message ?? record.Sns.ErrorMessage, webhookUrl)))
+    //     console.info('All messages sent successfully.')
+    // } catch (e) {
+    //     console.error(e)
+    //     context.fail(e)
+    // }
 }
