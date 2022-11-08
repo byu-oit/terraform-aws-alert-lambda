@@ -20,4 +20,7 @@ override.tf.json
 
 .DS_Store
 /examples/simple/.terraform.lock.hcl
+/lambda/package.json
+/lambda/package-lock.json
+/lambda/node_modules
 

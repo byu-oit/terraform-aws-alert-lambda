@@ -1,5 +1,6 @@
-const querystring = require('querystring')
-const https = require('https')
+// const querystring = require('querystring')
+// const https = require('https')
+const fetch = require('https://github.com/node-fetch/node-fetch')
 
 exports.handler = async function (event, context) {
     let message = ""
@@ -118,31 +119,40 @@ exports.handler = async function (event, context) {
     let post_success = false
     async function post_notify_object(host, path) {
         logItem("starting post_notify_object(host, path)", host, true)
-        const post_body = querystring.stringify(notify_obj)
-        logItem("post_body", post_body)
-        const options = {
-            hostname: host,
-            port: 443,
-            path: path,
-            method: 'POST',
-            headers : {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': post_body.length
-            }
-        };
+        // const post_body = querystring.stringify(notify_obj)
+        // logItem("post_body", post_body)
+        // const options = {
+        //     hostname: host,
+        //     port: 443,
+        //     path: path,
+        //     method: 'POST',
+        //     headers : {
+        //         'Content-Type': 'application/x-www-form-urlencoded',
+        //         'Content-Length': post_body.length
+        //     }
+        // };
 
-        const post_rq = https.request( options, (res) => {
-            logItem('statusCode:', res.statusCode);
-            logItem('headers:', res.headers);
-            if(res.statusCode === 200) {
-                post_success = true
-            } else {
-                logItem("other status received..", "", true)
-            }
-
+        const url = "https://" + host + path
+        const response = await fetch(url, {
+            method: 'post',
+            body: JSON.stringify(notify_obj),
+            headers: {'Content-Type': 'application/json'}
         });
-        post_rq.write(post_body);
-        post_rq.end();
+        const data = await response.json();
+
+        logItem("reesponse", data)
+        // const post_rq = https.request( options, (res) => {
+        //     console.log('statusCode:' +  res.statusCode);
+        //     console.log('headers:' + res.headers);
+        //     if(res.statusCode === 200) {
+        //         post_success = true
+        //     } else {
+        //         console.log("other status received..")
+        //     }
+        //
+        // });
+        // post_rq.write(post_body);
+        // post_rq.end();
     }
 
     // logItem("typeof process.env.IN_DEV", typeof process.env.IN_DEV)

@@ -5,6 +5,6 @@ cd lambda
 echo "deleting the old zipfile..."
 rm function.zip
 echo "zipping new index.js"
-zip function.zip index.js
+zip function.zip *.*
 cd ..
 echo "done..."
