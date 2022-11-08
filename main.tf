@@ -52,10 +52,13 @@ resource "aws_lambda_function" "sns_to_operations" {
   environment {
     variables = {
       APP_NAME = var.app_name
-      IN_DEV   = var.in_dev
+      IP_ADDRESS = var.ip_address
+      KB_ARTICLE_NUMBER = var.kb_article
       MONITORING_HOST = var.monitoring_host
-      DEV_MONITORING_HOST= var.dev_monitoring_host
       MONITORING_API_PATH = var.monitoring_api_path
+      SERVICE_NOW_TICKET = var.service_now_ticket
+      SEVERITY = var.severity
+      TICKET = var.ticket
     }
   }
   depends_on = [aws_cloudwatch_log_group.logging]

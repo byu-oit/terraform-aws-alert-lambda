@@ -1,38 +1,31 @@
 variable "app_name" {
   type        = string
   description = "The application name to include in the name of resources created."
+  default = ""
 }
 
-variable "monitoring_host" {
+variable "env" {
   type        = string
-  description = "The host to ship the Monitoring JSON Object to."
-  default     = "in.monitoring.byu.edu"
+  description = "dev for dev, prd for prd"
+  default     = true
 }
 
-variable "dev_monitoring_host" {
+variable "ip_address" {
   type        = string
-  description = "The DEV host to ship the Monitoring JSON Object to."
-  default     = "in.monitoringdev.byu.edu"
+  description = ""
+  default = ""
 }
 
-variable "monitoring_api_path" {
+variable "kb_article" {
   type        = string
-  description = "The monitoring api path."
-  default     = "/generic/process-event"
+  description = ""
+  default = ""
 }
 
 variable "lambda_role_permissions_boundary" {
   type        = string
   description = "The ARN of the role permissions boundary to attach to the Lambda role."
   default     = ""
-}
-
-# people need to be able to pass in an array of configuration items ..   Metric, Event, Condition.
-
-variable "in_dev" {
-  type        = bool
-  description = "Whether or not to actually send messages to Teams. Recommended to be false for all environments except production."
-  default     = true
 }
 
 variable "log_retention_in_days" {
@@ -45,18 +38,6 @@ variable "memory_size" {
   type        = number
   description = "The amount of memory for the function."
   default     = 128
-}
-
-variable "timeout" {
-  type        = number
-  description = "The number of seconds the function is allowed to run."
-  default     = 30
-}
-
-variable "tags" {
-  type        = map(string)
-  description = "A map of AWS Tags to attach to each resource created."
-  default     = {}
 }
 
 variable "metric_alarm_configs" {
@@ -73,4 +54,44 @@ variable "metric_alarm_configs" {
     dimensions          = map(string)
   }))
   description = "Array of Alarm objects"
+}
+
+variable "monitoring_api_path" {
+  type        = string
+  description = "The monitoring api path."
+  default     = "/generic/process-event"
+}
+
+
+variable "monitoring_host" {
+  type        = string
+  description = "The host to ship the Monitoring JSON Object to."
+  default     = "in.monitoring.byu.edu" //Dev: "in.monitoringdev.byu.edu"
+}
+
+variable "service_now_ticket" {
+  type        = string
+  description = ""
+}
+
+variable "severity" {
+  type        = string
+  description = ""
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of AWS Tags to attach to each resource created."
+  default     = {}
+}
+
+variable "ticket" {
+  type        = string
+  description = ""
+}
+
+variable "timeout" {
+  type        = number
+  description = "The number of seconds the function is allowed to run."
+  default     = 30
 }
