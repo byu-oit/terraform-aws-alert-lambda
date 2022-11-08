@@ -27,8 +27,6 @@ variable "lambda_role_permissions_boundary" {
   default     = ""
 }
 
-# people need to be able to pass in an array of configuration items ..   Metric, Event, Condition.
-
 variable "in_dev" {
   type        = bool
   description = "Whether or not to actually send messages to Teams. Recommended to be false for all environments except production."
