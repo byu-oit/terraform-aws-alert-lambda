@@ -51,10 +51,10 @@ resource "aws_lambda_function" "sns_to_operations" {
 
   environment {
     variables = {
-      APP_NAME = var.app_name
-      IN_DEV   = var.in_dev
-      MONITORING_HOST = var.monitoring_host
-      DEV_MONITORING_HOST= var.dev_monitoring_host
+      APP_NAME            = var.app_name
+      IN_DEV              = var.in_dev
+      MONITORING_HOST     = var.monitoring_host
+      DEV_MONITORING_HOST = var.dev_monitoring_host
       MONITORING_API_PATH = var.monitoring_api_path
     }
   }
