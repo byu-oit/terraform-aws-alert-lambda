@@ -1,6 +1,6 @@
 // const querystring = require('querystring')
 // const https = require('https')
-import fetch from 'node-fetch';
+const fetch = require('node-fetch')
 
 exports.handler = async function (event, context) {
     let message = ""
