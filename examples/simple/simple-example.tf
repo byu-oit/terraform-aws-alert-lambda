@@ -20,7 +20,7 @@ module "acs" {
 module "simple_test" {
   source                           = "../../"
   app_name                         = "alert-lambda-simple-test"
-  monitoring_host                  = "in.monitoringdev.byu.edu"
+  monitoring_host                  = "https://in.monitoringdev.byu.edu/"
   kb                               = "KB000000"
   lambda_role_permissions_boundary = module.acs.role_permissions_boundary.arn
   metric_alarm_configs = [{

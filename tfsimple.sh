@@ -1,5 +1,5 @@
 #! /bin/bash
-echo "terraform apply /examples/simple/simpele.example"
+echo "terraform apply /examples/simple/simple.example"
 echo " go to examples/simple..."
 cd examples/simple
 #echo "aws sso login..."
