@@ -4,6 +4,8 @@ echo " go to examples/simple..."
 cd examples/simple
 #echo "aws sso login..."
 #aws sso login
+echo "run terraform init"
+terraform init
 echo "run terraform apply"
 terraform apply
 echo "return to project root folder...."
