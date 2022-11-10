@@ -8,8 +8,9 @@
     "node": ">=16"
   },
   "scripts": {
-    "clean": "rimraf dist ../function.zip",
-    "build": "npm run clean && tsc && glob-zip ../function.zip 'dist/**/*' --lift 1",
+    "clean": "rimraf dist tmp ../function.zip",
+    "compile": "tsc",
+    "build": "npm run clean && npm run compile && cpy './package*.json' dist tmp && cd tmp && npm ci --omit=dev && cd .. && glob-zip ../function.zip 'tmp/**/*' --lift=1",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
     "test": "jest"
@@ -43,6 +44,7 @@
     "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
+    "cpy-cli": "^4.2.0",
     "eslint": "^8.27.0",
     "glob-zip": "^1.0.0",
     "jest": "^29.3.1",
