@@ -10,11 +10,11 @@ const logger = ByuLogger({
   }
 })
 
-export const handler: Handler<SNSEvent> = async function handler (event, context) {
+export const handler: Handler<SNSEvent, LambdaSucceed> = async function handler (event) {
   if (event.Records.length > 1) {
-    context.fail('Too many records found in the sns event. Right now we only support' +
-      ' sending one event at a time')
-    return
+    const msg = `Too many records found in the sns event. Right now we only support sending one event at a time`
+    logger.error({ event }, msg)
+    throw new LambdaFail(msg)
   }
 
   const result = await fetch(`${host}${path}`, {
@@ -24,16 +24,18 @@ export const handler: Handler<SNSEvent> = async function handler (event, context
     }),
     body: new Notify(event.Records[0].Sns).toString()
   })
-  const json = await result.json()
+  const body = await result.json()
+  const response = { json: body, status: result.status, statusText: result.statusText }
 
-  const { status, statusText } = result
   if (!result.ok) {
-    logger.error({ json, status, statusText })
-    context.fail(new LambdaFail(`Failed to send alert to ${host} with status code ${status}.`))
-    return
+    const msg = `Failed to send alert to ${host}.`
+    logger.error({ response }, msg)
+    throw new LambdaFail(msg, response)
   }
 
-  context.succeed(new LambdaSucceed(`Sent alert to ${host} with status code ${status}`, json))
+  const msg = `Sent alert to ${host}.`
+  logger.info({ response }, msg)
+  return new LambdaSucceed(msg, body)
 }
 
 class LambdaFail extends Error {

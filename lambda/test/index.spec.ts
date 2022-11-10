@@ -3,28 +3,24 @@ import fetchMock, { enableFetchMocks } from 'jest-fetch-mock'
 // Docs: https://www.npmjs.com/package/jest-fetch-mock#to-setup-for-an-individual-test
 enableFetchMocks()
 
-import { Context } from 'aws-lambda'
+import { Callback, Context } from 'aws-lambda'
 import { handler } from '../src'
 import { SnsEvent } from './assets/snsEvent'
 
-class LambdaContext {
-  fail = jest.fn()
-  succeed = jest.fn()
-}
-
 describe('Alert Lambda', () => {
   let context: Context
+  let callback: Callback
 
   beforeEach(() => {
-    context = new LambdaContext() as unknown as Context
+    context = {} as unknown as Context
+    callback = jest.fn() as unknown as Callback
     fetchMock.resetMocks()
   })
 
-  it('should sends an alert', async () => {
+  it('should send an alert', async () => {
     fetchMock.mockResponseOnce(JSON.stringify({}))
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await handler(SnsEvent, context, () => {})
-    expect(context.succeed).toHaveBeenCalledTimes(1)
+    await expect(handler(SnsEvent, context, callback)).resolves.toBeDefined()
   })
 
   it.todo('should fail gracefully')
