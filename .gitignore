@@ -15,11 +15,14 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
-# Ignore jetbrains .idea folder
-.idea
+# JetBrains
+.idea/
 
+# MacOS
 .DS_Store
-/examples/simple/.terraform.lock.hcl
-/lambda/node_modules
 
+# Node
+node_modules/
 
+# Distributable code
+dist/

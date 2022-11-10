@@ -17,11 +17,11 @@ module "alert_lambda" {
 * Terraform version 1.1.9 or greater
 
 ## Inputs
-| Name | Type  | Description | Default |
-| --- | --- | --- | --- |
-| | | | |
+| Name | Type | Description | Default |
+|------|------|-------------|---------|
+|      |      |             |         |
 
 ## Outputs
 | Name | Type | Description |
-| ---  | ---  | --- |
-| | | |
+|------|------|-------------|
+|      |      |             |

@@ -3,19 +3,18 @@ variable "app_name" {
   description = "The application name to include in the name of resources created."
 }
 
+variable "kb" {
+  type = string
+  description = "The KB article identifier for operations to use to resolve the alert. For example, KB0000000"
+}
+
 variable "monitoring_host" {
   type        = string
   description = "The host to ship the Monitoring JSON Object to."
-  default     = "in.monitoring.byu.edu"
+  default     = "https://in.monitoring.byu.edu"
 }
 
-variable "dev_monitoring_host" {
-  type        = string
-  description = "The DEV host to ship the Monitoring JSON Object to."
-  default     = "in.monitoringdev.byu.edu"
-}
-
-variable "monitoring_api_path" {
+variable "monitoring_path" {
   type        = string
   description = "The monitoring api path."
   default     = "/generic/process-event"
@@ -25,12 +24,6 @@ variable "lambda_role_permissions_boundary" {
   type        = string
   description = "The ARN of the role permissions boundary to attach to the Lambda role."
   default     = ""
-}
-
-variable "in_dev" {
-  type        = bool
-  description = "Whether or not to actually send messages to Teams. Recommended to be false for all environments except production."
-  default     = true
 }
 
 variable "log_retention_in_days" {
