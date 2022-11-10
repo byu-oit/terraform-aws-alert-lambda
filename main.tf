@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 1.1.9"
   required_providers {
-    aws = ">= 3.73.0"
+    aws = ">= 3.75.2"
   }
 }
 
@@ -12,16 +12,16 @@ provider "aws" {
 
 locals {
   add_permission_boundary = length(var.lambda_role_permissions_boundary) > 0
-  filename                = "${path.module}/lambda/function.zip"
+  filename                = "${path.module}/function.zip"
 }
 
 # IAM policies for the run lambda
 resource "aws_iam_role" "lambda_role" {
   assume_role_policy = jsonencode({
-    Version = "2012-10-17",
+    Version   = "2012-10-17",
     Statement = [
       {
-        Action = "sts:AssumeRole",
+        Action    = "sts:AssumeRole",
         Principal = {
           Service = [
             "lambda.amazonaws.com"
@@ -42,7 +42,7 @@ resource "aws_lambda_function" "sns_to_operations" {
   function_name    = "${var.app_name}-sns-to-operations"
   filename         = local.filename
   handler          = "index.handler"
-  runtime          = "nodejs14.x"
+  runtime          = "nodejs16.x"
   role             = aws_iam_role.lambda_role.arn
   timeout          = var.timeout
   memory_size      = var.memory_size
@@ -52,10 +52,9 @@ resource "aws_lambda_function" "sns_to_operations" {
   environment {
     variables = {
       APP_NAME            = var.app_name
-      IN_DEV              = var.in_dev
+      KB_ARTICLE          = var.kb
       MONITORING_HOST     = var.monitoring_host
-      DEV_MONITORING_HOST = var.dev_monitoring_host
-      MONITORING_API_PATH = var.monitoring_api_path
+      MONITORING_API_PATH = var.monitoring_path
     }
   }
   depends_on = [aws_cloudwatch_log_group.logging]
@@ -87,7 +86,7 @@ resource "aws_sns_topic_subscription" "lambda" {
 
 # Create array of cloud watch alarms
 resource "aws_cloudwatch_metric_alarm" "alarms" {
-  for_each            = { for config in var.metric_alarm_configs : config.alarm_name => config }
+  for_each            = {for config in var.metric_alarm_configs : config.alarm_name => config}
   alarm_name          = each.value.alarm_name
   comparison_operator = each.value.comparison_operator
   evaluation_periods  = each.value.evaluation_periods
