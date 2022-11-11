@@ -16,13 +16,15 @@ export const handler: Handler<SNSEvent, LambdaSucceed> = async function handler 
     logger.error({ event }, msg)
     throw new LambdaFail(msg)
   }
-
+  logger.info(`url = ${host}${path}`)
+  const notify =  new Notify(event.Records[0].Sns).toString()
+  logger.info(`Notify = ${notify}`)
   const result = await fetch(`${host}${path}`, {
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json'
     }),
-    body: new Notify(event.Records[0].Sns).toString()
+    body: notify
   })
   const body = await result.json()
   const response = { json: body, status: result.status, statusText: result.statusText }

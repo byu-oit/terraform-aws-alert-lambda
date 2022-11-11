@@ -17,7 +17,7 @@ variable "monitoring_host" {
 variable "monitoring_path" {
   type        = string
   description = "The monitoring api path."
-  default     = "/generic/process-event"
+  default     = "generic/process-event"
 }
 
 variable "lambda_role_permissions_boundary" {
@@ -64,4 +64,22 @@ variable "metric_alarm_configs" {
     dimensions          = map(string)
   }))
   description = "Array of Alarm objects"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "Use a VPC for the lambda ingester functions. Pass in a vpc to enable."
+  default     = ""
+}
+
+variable "security_group_ids" {
+  type        = list(string)
+  description = "A list of security group ids for the VPC configuration regarding the ingester lambda functions. Only required if VPC is enabled."
+  default     = []
+}
+
+variable "subnet_ids" {
+  type        = list(string)
+  description = "A list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled."
+  default     = []
 }
