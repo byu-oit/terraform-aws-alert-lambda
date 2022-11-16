@@ -14,7 +14,8 @@ provider "aws" {
 }
 
 module "acs" {
-  source = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  vpc_vpn_to_campus = true
 }
 
 module "ci_test" {
@@ -23,6 +24,8 @@ module "ci_test" {
   monitoring_host                  = "https://in.monitoringdev.byu.edu/"
   kb                               = "KB0000000"
   lambda_role_permissions_boundary = module.acs.role_permissions_boundary.arn
+  vpc_id                           = module.acs.vpc.id
+  subnet_ids                       = module.acs.private_subnet_ids
   metric_alarm_configs             = []
 }
 
