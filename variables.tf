@@ -3,22 +3,21 @@ variable "app_name" {
   description = "The application name to include in the name of resources created."
 }
 
+variable "kb" {
+  type        = string
+  description = "The KB article identifier for operations to use to resolve the alert. For example, KB0000000"
+}
+
 variable "monitoring_host" {
   type        = string
   description = "The host to ship the Monitoring JSON Object to."
-  default     = "in.monitoring.byu.edu"
+  default     = "https://in.monitoring.byu.edu"
 }
 
-variable "dev_monitoring_host" {
-  type        = string
-  description = "The DEV host to ship the Monitoring JSON Object to."
-  default     = "in.monitoringdev.byu.edu"
-}
-
-variable "monitoring_api_path" {
+variable "monitoring_path" {
   type        = string
   description = "The monitoring api path."
-  default     = "/generic/process-event"
+  default     = "generic/process-event"
 }
 
 variable "lambda_role_permissions_boundary" {
@@ -27,16 +26,10 @@ variable "lambda_role_permissions_boundary" {
   default     = ""
 }
 
-variable "in_dev" {
-  type        = bool
-  description = "Whether or not to actually send messages to Teams. Recommended to be false for all environments except production."
-  default     = true
-}
-
 variable "log_retention_in_days" {
   type        = number
   description = "The number of days to retain logs for the sns-to-teams Lambda."
-  default     = 14
+  default     = 7
 }
 
 variable "memory_size" {
@@ -71,4 +64,22 @@ variable "metric_alarm_configs" {
     dimensions          = map(string)
   }))
   description = "Array of Alarm objects"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "Use a VPC for the lambda ingester functions. Pass in a vpc to enable."
+  default     = ""
+}
+
+variable "security_group_ids" {
+  type        = list(string)
+  description = "A list of security group ids for the VPC configuration regarding the ingester lambda functions. Only required if VPC is enabled."
+  default     = []
+}
+
+variable "subnet_ids" {
+  type        = list(string)
+  description = "A list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled."
+  default     = []
 }

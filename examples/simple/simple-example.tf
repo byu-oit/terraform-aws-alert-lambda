@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.73.0"
+      version = "~> 3.75.2"
     }
   }
 }
@@ -14,14 +14,18 @@ provider "aws" {
 }
 
 module "acs" {
-  source = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  vpc_vpn_to_campus = true
 }
 
-module "ci_test" {
+module "simple_test" {
   source                           = "../../"
   app_name                         = "alert-lambda-simple-test"
-  monitoring_host                  = "in.monitoringdev.byu.edu"
+  monitoring_host                  = "https://in.monitoringdev.byu.edu/"
+  kb                               = "KB000000"
   lambda_role_permissions_boundary = module.acs.role_permissions_boundary.arn
+  vpc_id                           = module.acs.vpc.id
+  subnet_ids                       = module.acs.private_subnet_ids
   metric_alarm_configs = [{
     alarm_name          = "simple-test-cpu-utilization-alarm"
     statistic           = "Average"

@@ -1,13 +1,11 @@
 #! /bin/bash
-echo "terraform apply /examples/simple/simple.example"
+echo "terraform DESTROY /examples/simple/simple.example"
 echo " go to examples/simple..."
 cd examples/simple
 #echo "aws sso login..."
 #aws sso login
-echo "run terraform init"
-terraform init
-echo "run terraform apply"
-terraform apply
+echo "Destroying terraform project"
+terraform destroy
 echo "return to project root folder...."
 cd ../..
 echo "Done..."
