@@ -29,7 +29,7 @@ variable "lambda_role_permissions_boundary" {
 variable "log_retention_in_days" {
   type        = number
   description = "The number of days to retain logs for the sns-to-teams Lambda."
-  default     = 14
+  default     = 7
 }
 
 variable "memory_size" {
