@@ -11,9 +11,9 @@ provider "aws" {
 }
 
 locals {
-  add_permission_boundary = length(var.lambda_role_permissions_boundary) > 0
-  filename                = "${path.module}/function.zip"
-  enable_vpc_for_aws-alert_lambdas   = length(var.vpc_id) > 0
+  add_permission_boundary          = length(var.lambda_role_permissions_boundary) > 0
+  filename                         = "${path.module}/function.zip"
+  enable_vpc_for_aws-alert_lambdas = length(var.vpc_id) > 0
 }
 
 resource "aws_security_group" "aws-alert-vpc-sg" {
@@ -33,10 +33,10 @@ resource "aws_security_group" "aws-alert-vpc-sg" {
 # IAM policies for the run lambda
 resource "aws_iam_role" "lambda_role" {
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
-        Action    = "sts:AssumeRole",
+        Action = "sts:AssumeRole",
         Principal = {
           Service = [
             "lambda.amazonaws.com"
@@ -49,8 +49,8 @@ resource "aws_iam_role" "lambda_role" {
   })
 
   permissions_boundary = local.add_permission_boundary ? var.lambda_role_permissions_boundary : null
-  managed_policy_arns  = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-                          "arn:aws:iam::aws:policy/service-role/AWSLambdaENIManagementAccess"]
+  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+  "arn:aws:iam::aws:policy/service-role/AWSLambdaENIManagementAccess"]
 }
 
 # lambda
@@ -107,7 +107,7 @@ resource "aws_sns_topic_subscription" "lambda" {
 
 # Create array of cloud watch alarms
 resource "aws_cloudwatch_metric_alarm" "alarms" {
-  for_each            = {for config in var.metric_alarm_configs : config.alarm_name => config}
+  for_each            = { for config in var.metric_alarm_configs : config.alarm_name => config }
   alarm_name          = each.value.alarm_name
   comparison_operator = each.value.comparison_operator
   evaluation_periods  = each.value.evaluation_periods

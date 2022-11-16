@@ -4,7 +4,7 @@ variable "app_name" {
 }
 
 variable "kb" {
-  type = string
+  type        = string
   description = "The KB article identifier for operations to use to resolve the alert. For example, KB0000000"
 }
 
