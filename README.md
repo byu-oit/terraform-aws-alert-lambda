@@ -50,13 +50,6 @@ module "simple_test" {
 }
 ```
 
-If you need to modify the standard SNS Topic for something special..
-See [Terraform aws_sns_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic)
-
-There are several configurable Alarm Metric Alarm inputs that you can work with.
-See [Terraform aws_cloudwatch_metric_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm)
-
-
 ## Inputs
 | Name                             | Type         | Description                                                                                                                      | Default                       |
 |----------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
@@ -97,3 +90,10 @@ variable "metric_alarm_configs" {
 | Name | Type | Description |
 |------|------|-------------|
 |      |      |             |
+
+## Future Modifications...
+If you need to modify the standard SNS Topic for something special..
+See [Terraform aws_sns_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic)
+
+There are several configurable Alarm Metric Alarm inputs that you can work with.
+See [Terraform aws_cloudwatch_metric_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm)
