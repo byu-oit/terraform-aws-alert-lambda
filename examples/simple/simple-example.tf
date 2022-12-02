@@ -31,10 +31,10 @@ module "simple_test" {
     statistic           = "Average"
     metric_name         = "CPUUtilization"
     comparison_operator = "GreaterThanThreshold"
-    threshold           = 0.041
+    threshold           = 85
     period              = 60
     evaluation_periods  = 1
-    alarm_description   = "test fires on cpu utilization"
+    alarm_description   = "Alarm fires on cpu utilization"
     namespace           = "AWS/ECS"
     dimensions = {
       ServiceName = "tyk-identity-api-dev"
