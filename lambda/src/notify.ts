@@ -16,7 +16,7 @@ export class Notify {
    *  Severity of the alert (number from 1 to 4 or one of ["CRITICAL", "WARNING"]):
    *  Required
    */
-  severity: string
+  severity: number
 
   /**
    *  Words to display with the alert: Required
@@ -51,17 +51,23 @@ export class Notify {
   /**
    * The ServiceNow Service associated with the host: Optional
    */
-  service?: string = 'Tyk\'s TIM service'
+  service?: string
 
   constructor (sns: SNSMessage) {
     this.host = appName
     this.kb = kb
     this.alert_output = sns.Subject
-    this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 'CRITICAL' : 'OK'
+
+    // Sentinel Severity Codes
+    // 1 Critical
+    // 2 Warning
+    // 3 Ok
+    // 4 Informational
+    this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 1 : 3
 
     const message = JSON.parse(sns.Message)
     this.element = message.AlarmName
-    this.element_monitor = 'AWS Alarm Trigger: ' + JSON.stringify(message.Trigger)
+    this.element_monitor = 'CloudWatch'
 
     this.alert_time = sns.Timestamp
     this.address = ''
