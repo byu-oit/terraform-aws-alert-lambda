@@ -1,6 +1,6 @@
 {
   "name": "@byu-oit/terraform-aws-alert-lambda",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lambda for Subscribing to an SNS Topic for CloudWatch Alarm from Metrics\nand sending it to Operations as the expected JSON object.",
   "main": "dist/index.js",
   "engines": {
