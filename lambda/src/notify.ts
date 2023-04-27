@@ -51,17 +51,23 @@ export class Notify {
   /**
    * The ServiceNow Service associated with the host: Optional
    */
-  service?: string = 'Tyk\'s TIM service'
+  service?: string
 
   constructor (sns: SNSMessage) {
     this.host = appName
     this.kb = kb
 
+    // Sentinel Severity Codes
+    // 1 Critical
+    // 2 Warning
+    // 3 Ok
+    // 4 Informational
+    this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 1 : 3
+
     const message = JSON.parse(sns.Message)
     this.element = message.AlarmName
     this.element_monitor = 'CLOUDWATCH'
     this.alert_output = sns.Subject + " : " + message.Trigger
-    this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 'CRITICAL' : 'OK'
 
     this.alert_time = sns.Timestamp
     this.address = ''
