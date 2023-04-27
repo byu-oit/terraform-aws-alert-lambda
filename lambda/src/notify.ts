@@ -56,12 +56,12 @@ export class Notify {
   constructor (sns: SNSMessage) {
     this.host = appName
     this.kb = kb
-    this.alert_output = sns.Subject
-    this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 'CRITICAL' : 'OK'
 
     const message = JSON.parse(sns.Message)
     this.element = message.AlarmName
-    this.element_monitor = 'AWS Alarm Trigger: ' + JSON.stringify(message.Trigger)
+    this.element_monitor = 'CLOUDWATCH'
+    this.alert_output = sns.Subject + " : " + message.Trigger
+    this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 'CRITICAL' : 'OK'
 
     this.alert_time = sns.Timestamp
     this.address = ''
