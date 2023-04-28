@@ -12,7 +12,7 @@ That Alarm Data is then reformatted into the expected format that Operations is 
 ## Usage
 ```
 module "alert_lambda" {
-  source = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.0.2"
+  source = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.0.3"
 }
 ```
 
@@ -67,7 +67,7 @@ module "simple_test" {
 | security_group_ids               | list(string) | A list of security group ids for the VPC configuration regarding the ingester lambda functions. Only required if VPC is enabled. | []                            |
 | period                           | number       | (Optional) The period in seconds over which the specified statistic is applied.                                                  |                               |
 
-### "metric_alarm_configs" Object Types supported from variatles.tf:53-67
+### "metric_alarm_configs" Object Types supported from variables.tf:53-67
 ```
 variable "metric_alarm_configs" {
   type = list(object({
@@ -92,7 +92,7 @@ variable "metric_alarm_configs" {
 |      |      |             |
 
 ## Future Modifications...
-If you need to modify the standard SNS Topic for something special..
+If you need to modify the standard SNS Topic for something special.
 See [Terraform aws_sns_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic)
 
 There are several configurable Alarm Metric Alarm inputs that you can work with.
