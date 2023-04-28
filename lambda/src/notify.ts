@@ -56,7 +56,11 @@ export class Notify {
   constructor (sns: SNSMessage) {
     this.host = appName
     this.kb = kb
-    this.alert_output = sns.Subject
+
+    const message = JSON.parse(sns.Message)
+    this.element = message.AlarmName
+    this.element_monitor = 'CLOUDWATCH'
+    this.alert_output = sns.Subject + " : " + message.Trigger
 
     // Sentinel Severity Codes
     // 1 Critical
@@ -64,10 +68,6 @@ export class Notify {
     // 3 Ok
     // 4 Informational
     this.severity = this.alert_output.toUpperCase().startsWith('ALARM') ? 1 : 3
-
-    const message = JSON.parse(sns.Message)
-    this.element = message.AlarmName
-    this.element_monitor = 'CloudWatch'
 
     this.alert_time = sns.Timestamp
     this.address = ''
