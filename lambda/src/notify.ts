@@ -59,7 +59,7 @@ export class Notify {
 
     const message = JSON.parse(sns.Message)
     this.element = message.AlarmName
-    this.element_monitor = 'CLOUDWATCH'
+    this.element_monitor = 'AWS CLOUDWATCH'
     this.alert_output = sns.Subject + " : " + message.Trigger
 
     // Sentinel Severity Codes
