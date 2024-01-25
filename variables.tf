@@ -60,6 +60,8 @@ variable "metric_alarm_configs" {
     threshold           = number
     period              = number
     evaluation_periods  = number
+    datapoints_to_alarm = optional(number)
+    treat_missing_data  = optional(string)
     alarm_description   = string
     dimensions          = map(string)
   }))

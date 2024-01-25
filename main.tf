@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.1.9"
+  required_version = ">= 1.3"
   required_providers {
     aws = ">= 3.75.2"
   }
@@ -115,6 +115,8 @@ resource "aws_cloudwatch_metric_alarm" "alarms" {
   alarm_name          = each.value.alarm_name
   comparison_operator = each.value.comparison_operator
   evaluation_periods  = each.value.evaluation_periods
+  datapoints_to_alarm = each.value.datapoints_to_alarm
+  treat_missing_data  = each.value.treat_missing_data
   metric_name         = each.value.metric_name
   namespace           = each.value.namespace
   period              = each.value.period
