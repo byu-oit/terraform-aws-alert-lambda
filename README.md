@@ -12,7 +12,7 @@ That Alarm Data is then reformatted into the expected format that Operations is 
 ## Usage
 ```
 module "alert_lambda" {
-  source = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.0.3"
+  source = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.1.0"
 }
 ```
 

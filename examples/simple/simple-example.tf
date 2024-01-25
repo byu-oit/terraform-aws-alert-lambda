@@ -19,7 +19,7 @@ module "acs" {
 }
 
 module "alert_lambda" {
-  source                           = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.0.3"
+  source                           = "../.."
   app_name                         = "my-app-dev"
   monitoring_host                  = "https://in.monitoringdev.byu.edu/"
   kb                               = "KB000000"
