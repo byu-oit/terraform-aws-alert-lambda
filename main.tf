@@ -86,7 +86,7 @@ resource "aws_lambda_function" "sns_to_operations" {
 }
 
 resource "aws_cloudwatch_log_group" "logging" {
-  name              = "/aws/lambda/${var.app_name}/${local.module_name}"
+  name              = "/aws/lambda/${var.app_name}-${local.module_name}"
   retention_in_days = var.log_retention_in_days
 }
 

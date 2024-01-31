@@ -12,12 +12,12 @@ That Alarm Data is then reformatted into the expected format that Operations is 
 ## Usage
 ```
 module "alert_lambda" {
-  source = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.1.0"
+  source = "github.com/byu-oit/terraform-aws-alert-lambda?ref=v1.1.1"
 }
 ```
 
 ## Requirements
-* Terraform version 1.1.9 or greater
+* Terraform version 1.3.0 or greater
 * AWS Provider 3.75.2 or greater
 * BYU-ACS version 3.5.0 or greater
 
