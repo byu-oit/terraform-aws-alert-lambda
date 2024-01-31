@@ -17,7 +17,7 @@ module "alert_lambda" {
 ```
 
 ## Requirements
-* Terraform version 1.1.9 or greater
+* Terraform version 1.3.0 or greater
 * AWS Provider 3.75.2 or greater
 * BYU-ACS version 3.5.0 or greater
 
