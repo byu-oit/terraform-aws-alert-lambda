@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.75.2"
+      version = ">= 6.21"
     }
   }
 }
@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 module "acs" {
-  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v4.1.0"
   vpc_vpn_to_campus = true
 }
 

@@ -9,6 +9,34 @@ env:
   aws_gha_role: "alert-lambda-dev-gha"
 
 jobs:
+  lambda:
+    name: Test Lambda on Node 24
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: lambda/package-lock.json
+
+      - name: Install
+        working-directory: ./lambda
+        run: npm ci
+
+      - name: Lint
+        working-directory: ./lambda
+        run: npm run lint
+
+      - name: Test
+        working-directory: ./lambda
+        run: npm test
+
+      - name: Build
+        working-directory: ./lambda
+        run: npm run build
+
   format:
     name: Terraform Format
     runs-on: ubuntu-latest
@@ -57,7 +85,7 @@ jobs:
 
       - name: Terraform Plan
         working-directory: ${{ env.tf_working_dir }}
-        run: terraform plan.tfplan -input=false -out=plan.tfplan
+        run: terraform plan -input=false -out=plan.tfplan
 
       - name: Comment Terraform Plan
         uses: byu-oit/github-action-tf-plan-comment@v1

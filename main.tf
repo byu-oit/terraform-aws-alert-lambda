@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 1.3"
   required_providers {
-    aws = ">= 3.75.2"
+    aws = ">= 6.21"
   }
 }
 
@@ -62,7 +62,7 @@ resource "aws_lambda_function" "sns_to_operations" {
   function_name    = "${var.app_name}-${local.module_name}"
   filename         = local.filename
   handler          = "dist/index.handler"
-  runtime          = "nodejs16.x"
+  runtime          = "nodejs24.x"
   role             = aws_iam_role.lambda_role.arn
   timeout          = var.timeout
   memory_size      = var.memory_size
