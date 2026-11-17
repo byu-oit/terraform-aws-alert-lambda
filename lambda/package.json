@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "engines": {
     "npm": ">=8",
-    "node": ">=16"
+    "node": ">=24"
   },
   "scripts": {
     "clean": "rimraf dist tmp ../function.zip",
