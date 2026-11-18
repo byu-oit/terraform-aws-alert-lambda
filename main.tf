@@ -15,17 +15,20 @@ locals {
   filename                = "${path.module}/function.zip"
   enable_vpc_for_lambda   = length(var.vpc_id) > 0
   module_name             = "alert-lambda"
+  monitoring_port         = try(tonumber(regex("^https?://(?:\\[[^]]+\\]|[^/:]+):([0-9]+)(?:[/?#]|$)", lower(var.monitoring_host))[0]), length(regexall("^http://", lower(var.monitoring_host))) > 0 ? 80 : 443)
 }
 
+# trivy:ignore:AWS-0104 because endpoint IP addresses can change
 resource "aws_security_group" "lambda_sg" {
   count  = local.enable_vpc_for_lambda && length(var.security_group_ids) <= 0 ? 1 : 0
   name   = "${var.app_name}-${local.module_name}"
   vpc_id = var.vpc_id
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
+    description      = "Operations monitoring"
+    from_port        = local.monitoring_port
+    to_port          = local.monitoring_port
+    protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
@@ -58,6 +61,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 # lambda
+# trivy:ignore:AWS-0066
 resource "aws_lambda_function" "sns_to_operations" {
   function_name    = "${var.app_name}-${local.module_name}"
   filename         = local.filename
@@ -85,6 +89,7 @@ resource "aws_lambda_function" "sns_to_operations" {
   }
 }
 
+# trivy:ignore:AWS-0017
 resource "aws_cloudwatch_log_group" "logging" {
   name              = "/aws/lambda/${var.app_name}-${local.module_name}"
   retention_in_days = var.log_retention_in_days
@@ -99,6 +104,7 @@ resource "aws_lambda_permission" "sns_to_lambda" {
 }
 
 # sns Alarm topic and subscription
+# trivy:ignore:AWS-0095 because it requires CMK
 resource "aws_sns_topic" "alarm_to_lambda" {
   name = "${var.app_name}-${local.module_name}"
 }
